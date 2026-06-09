@@ -1,4 +1,5 @@
 "./Core/Src/adc.o"
+"./Core/Src/bme280.o"
 "./Core/Src/gpio.o"
 "./Core/Src/i2c.o"
 "./Core/Src/main.o"
@@ -9,6 +10,7 @@
 "./Core/Src/sysmem.o"
 "./Core/Src/system.o"
 "./Core/Src/system_stm32f4xx.o"
+"./Core/Src/thp_sensor.o"
 "./Core/Src/tim.o"
 "./Core/Src/ultrasonic.o"
 "./Core/Src/usart.o"

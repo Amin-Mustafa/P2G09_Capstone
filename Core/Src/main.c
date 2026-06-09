@@ -26,8 +26,9 @@
 #include "gpio.h"
 #include "system.h"
 #include "ultrasonic.h"
+#include "thp_sensor.h"
 
-volatile float dist = 0;
+volatile ThpData_t data = {0};
 
 int main(void)
 {
@@ -40,14 +41,19 @@ int main(void)
   MX_TIM2_Init();
   MX_ADC1_Init();
   MX_RTC_Init();
+  DWT_Init();
 
-  Ultrasonic_Init();
+  if(BME280_Init()) {
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+  } else {
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+  }
 
   while (1)
   {
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  dist = Ultrasonic_PollSensor(20);
-	  HAL_Delay(100);
+	  BME280_WakeAndMeasure();
+
+	  data = BME280_GetData();
   }
 }
 
