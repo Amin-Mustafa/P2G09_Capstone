@@ -37,7 +37,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/i2c.h ../Core/Inc/rtc.h \
  ../Core/Inc/tim.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
  ../Core/Inc/system.h ../Core/Inc/ultrasonic.h ../Core/Inc/thp_sensor.h \
- ../Core/Inc/piezo.h
+ ../Core/Inc/piezo.h ../Core/Inc/sensor_fusion.h ../Core/Inc/thp_sensor.h \
+ ../Core/Inc/telemetry_queue.h ../Core/Inc/sensor_fusion.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -85,3 +86,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/ultrasonic.h:
 ../Core/Inc/thp_sensor.h:
 ../Core/Inc/piezo.h:
+../Core/Inc/sensor_fusion.h:
+../Core/Inc/thp_sensor.h:
+../Core/Inc/telemetry_queue.h:
+../Core/Inc/sensor_fusion.h:

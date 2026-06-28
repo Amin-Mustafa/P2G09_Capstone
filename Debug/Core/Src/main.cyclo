@@ -1,5 +1,7 @@
-../Core/Src/main.c:67:5:main	6
-../Core/Src/main.c:119:6:SensorFusion	8
-../Core/Src/main.c:140:6:ESP32_TransmitPayload	3
-../Core/Src/main.c:166:6:EnterDeepSleep	1
-../Core/Src/main.c:184:6:Error_Handler	1
+../Core/Src/main.c:67:5:main	5
+../Core/Src/main.c:133:6:ESP32_TransmitPayload	6
+../Core/Src/main.c:182:10:Get_Local_RTC_Seconds	1
+../Core/Src/main.c:199:6:Enable_RTC_Wakeup_Interrupt	1
+../Core/Src/main.c:209:6:EnterDeepSleep	1
+../Core/Src/main.c:223:6:RTC_WKUP_IRQHandler	1
+../Core/Src/main.c:234:6:Error_Handler	1

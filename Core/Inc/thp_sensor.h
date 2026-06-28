@@ -11,7 +11,7 @@ typedef struct {
 } ThpData_t;
 
 bool BME280_Init(void);
-void BME280_WakeAndMeasure(void);
 ThpData_t BME280_GetData(void);
+ThpData_t BME280_GetSimData(void);
 
 #endif

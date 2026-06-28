@@ -8,54 +8,78 @@
 #define ECHO_PORT	GPIOB
 #define ECHO_PIN	GPIO_PIN_3
 
+#define BURST_SAMPLES		5
+#define PING_TIMEOUT_MS		50
+#define ACOUSTIC_DELAY_MS	80
+#define MIN_RANGE_CM		25.0f
+#define MAX_RANGE_CM		600.0f
+#define SPEED_OF_SOUND_CMUS	0.0343f
+
 extern TIM_HandleTypeDef htim2;
 
 static volatile bool echo_ready = false;
 static volatile uint32_t echo_time_us = 0;
-static float final_distance_cm = 0.0f;
 
-void Ultrasonic_Init(void) {
+static inline void swap(float *a, float *b) {
+    float temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+static void sort_array(float arr[], uint8_t n) {
+    for (uint8_t i = 1; i < n; i++) {
+        float key = arr[i];
+        int8_t j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+static float ping_ultrasonic(void) {
+	echo_ready = false;
+
+	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_SET);
+	DWT_Delay_us(10);
 	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);
 
-	DWT_Init();
-}
-
-void Ultrasonic_Trigger(void) {
-    echo_ready = false;
-
-    // Fire the trigger pulse
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
-
-    // Perfect 10us hardware-timed delay
-    DWT_Delay_us(10);
-
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
-}
-
-bool Ultrasonic_IsReady(void) {
-	return echo_ready;
-}
-
-float Ultrasonic_GetDistance(void) {
-    // Speed of sound is ~340 m/s or 0.034 cm/us.
-    // Divide by 2 because the sound goes out and bounces back.
-    final_distance_cm = (echo_time_us * 0.0343f) / 2.0f;
-    return final_distance_cm;
-}
-
-float Ultrasonic_PollSensor(uint32_t timeout_ms) {
-	Ultrasonic_Trigger();
-
-	// Record the time we fired it for timeout protection
 	uint32_t timeout_start = HAL_GetTick();
-
-	while (!Ultrasonic_IsReady()) {
-		if ((HAL_GetTick() - timeout_start) > timeout_ms) {
-			return final_distance_cm;
+	while (!echo_ready) {
+		if ((HAL_GetTick() - timeout_start) > PING_TIMEOUT_MS) {
+			return -1.0f; // Hardware timeout or object out of range
 		}
 	}
 
-	return Ultrasonic_GetDistance();
+	return (echo_time_us * SPEED_OF_SOUND_CMUS) / 2.0f;
+}
+
+void Ultrasonic_Init(void) {
+	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);
+	DWT_Init();
+}
+
+float Ultrasonic_GetDistance(void) {
+    float readings[BURST_SAMPLES];
+    uint8_t valid_count = 0;
+    for (uint8_t i = 0; i < BURST_SAMPLES; i++) {
+        float dist = ping_ultrasonic();
+
+        if (dist > MIN_RANGE_CM && dist < MAX_RANGE_CM) {
+            readings[valid_count] = dist;
+            valid_count++;
+        }
+        HAL_Delay(ACOUSTIC_DELAY_MS);
+    }
+
+    if (valid_count == 0) {
+        return -1.0f; // All pings timed out; sensor might be unplugged or broken.
+    }
+
+    // Median filter
+    sort_array(readings, valid_count);
+    return readings[valid_count / 2];
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -75,7 +99,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     }
 }
 
-void EXTI3_IRQHandler(void)
-{
+void EXTI3_IRQHandler(void) {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
 }

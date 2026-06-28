@@ -1,7 +1,6 @@
-../Core/Src/ultrasonic.c:17:6:Ultrasonic_Init	1
-../Core/Src/ultrasonic.c:23:6:Ultrasonic_Trigger	1
-../Core/Src/ultrasonic.c:35:6:Ultrasonic_IsReady	1
-../Core/Src/ultrasonic.c:39:7:Ultrasonic_GetDistance	1
-../Core/Src/ultrasonic.c:46:7:Ultrasonic_PollSensor	3
-../Core/Src/ultrasonic.c:61:6:HAL_GPIO_EXTI_Callback	3
-../Core/Src/ultrasonic.c:78:6:EXTI3_IRQHandler	1
+../Core/Src/ultrasonic.c:29:13:sort_array	4
+../Core/Src/ultrasonic.c:41:14:ping_ultrasonic	3
+../Core/Src/ultrasonic.c:58:6:Ultrasonic_Init	1
+../Core/Src/ultrasonic.c:63:7:Ultrasonic_GetDistance	5
+../Core/Src/ultrasonic.c:85:6:HAL_GPIO_EXTI_Callback	3
+../Core/Src/ultrasonic.c:102:6:EXTI3_IRQHandler	1

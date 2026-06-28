@@ -1,0 +1,5 @@
+../Core/Src/telemetry_queue.c:9:6:Queue_Init	4	static
+../Core/Src/telemetry_queue.c:16:6:Queue_Push	12	static
+../Core/Src/telemetry_queue.c:34:6:Queue_Peek	24	static
+../Core/Src/telemetry_queue.c:41:6:Queue_Pop	4	static
+../Core/Src/telemetry_queue.c:48:6:Queue_HasPendingData	4	static

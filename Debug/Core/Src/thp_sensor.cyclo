@@ -1,6 +1,6 @@
-../Core/Src/thp_sensor.c:14:22:bme280_i2c_read	2
-../Core/Src/thp_sensor.c:21:22:bme280_i2c_write	2
-../Core/Src/thp_sensor.c:29:6:bme280_delay_us	1
-../Core/Src/thp_sensor.c:33:6:BME280_Init	3
-../Core/Src/thp_sensor.c:60:6:BME280_WakeAndMeasure	2
-../Core/Src/thp_sensor.c:75:11:BME280_GetData	2
+../Core/Src/thp_sensor.c:13:22:bme280_i2c_read	2
+../Core/Src/thp_sensor.c:20:22:bme280_i2c_write	2
+../Core/Src/thp_sensor.c:28:6:bme280_delay_us	1
+../Core/Src/thp_sensor.c:32:6:BME280_Init	3
+../Core/Src/thp_sensor.c:59:11:BME280_GetData	3
+../Core/Src/thp_sensor.c:90:11:BME280_GetSimData	1
