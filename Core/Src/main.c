@@ -136,7 +136,7 @@ bool ESP32_TransmitPayload(void) {
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
 
-    // Wait up to 500ms for ESP32 to wake up and reply 'R'
+    // Wait up to 12s for ESP32 to wake up and reply 'R'
 	if (HAL_UART_Receive(&huart1, rx_buffer, 1, ESP_WAKEUP_TIME) == HAL_OK && rx_buffer[0] == 'R') {
 
         uint32_t current_time = Get_Local_RTC_Seconds();
@@ -163,7 +163,7 @@ bool ESP32_TransmitPayload(void) {
 
 			HAL_UART_Transmit(&huart1, (uint8_t*)json_payload, strlen(json_payload), 200);
 
-            // Wait up to 2 seconds for ESP32 to confirm it published to MQTT ('K' for aCK)
+            // Wait up to 6 seconds for ESP32 to confirm it published to MQTT ('K' for aCK)
             if (HAL_UART_Receive(&huart1, rx_buffer, 1, ESP_ACK_TIME) == HAL_OK && rx_buffer[0] == 'K') {
                 Queue_Pop(); // Safely delete from SRAM only after server receives it
             } else {

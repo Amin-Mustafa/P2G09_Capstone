@@ -3,15 +3,10 @@
 #include "stm32f4xx_hal.h"
 
 #define SAMPLE_INTERVAL_MS	10
-#define PIEZO_SOFTWARE_GAIN 100
 
-// 1. The exact idle number you found in the diagnostic
-#define PIEZO_IDLE_BASELINE 132
+// Only accept voltage spikes 4 points ABOVE the idle state
+#define PIEZO_NOISE_BUFFER	4
 
-// 2. We only care if the voltage spikes 4 points ABOVE the idle state (136)
-#define PIEZO_NOISE_FLOOR   (PIEZO_IDLE_BASELINE + 4)
-
-// 3. The multiplier to make the delta look great on your dashboard
 #define PIEZO_GAIN          15
 
 #define PIEZO_MAX_ENERGY        1000
@@ -50,10 +45,9 @@ uint32_t Piezo_GetRainIntensity(uint32_t listen_window_ms) {
         if (HAL_ADC_PollForConversion(&hadc1, 2) == HAL_OK) {
             uint32_t current_val = HAL_ADC_GetValue(&hadc1);
 
-            // Only trigger if the reading breaks above ~136
-            if (current_val > PIEZO_NOISE_FLOOR) {
-                // SUBTRACT the baseline. A peak of 140 only adds 8 points of energy.
-                total_energy += (current_val - PIEZO_IDLE_BASELINE);
+            if (current_val > baseline_noise + PIEZO_NOISE_BUFFER) {
+                // Subtract the baseline
+                total_energy += (current_val - baseline_noise);
             }
         }
     }
