@@ -15,11 +15,6 @@ void Queue_Init(void) {
 // Simple ringbuffer
 bool Queue_Push(TelemetryRecord_t record) {
     if (count >= QUEUE_MAX_SIZE) {
-        // Option A: Reject new data
-        // return false;
-
-        // Option B (Preferred for logging): Overwrite the absolute oldest data
-        // to ensure we always have the most recent history leading up to the present.
         tail = (tail + 1) % QUEUE_MAX_SIZE;
         count--;
     }
