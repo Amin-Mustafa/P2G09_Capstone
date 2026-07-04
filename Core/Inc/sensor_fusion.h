@@ -30,8 +30,8 @@ typedef struct {
     uint32_t next_sleep_s;
 } FusedData_t;
 
+// API Functions
 void SensorFusion_Init(void);
-
 FusedData_t SensorFusion_Process(RawSensorData_t raw);
 
 #endif
