@@ -84,8 +84,6 @@ int main(void) {
 
 	Queue_Init();
 
-	srand(Get_Local_RTC_Seconds());
-
 	while(1) {
 		switch(current_state) {
 		case STATE_WAKE_INIT:
