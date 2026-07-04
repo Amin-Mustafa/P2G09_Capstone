@@ -95,7 +95,7 @@ ThpData_t BME280_GetSimData(void) {
     float hum_noise  = ((float)rand() / (float)RAND_MAX) * 1.5f - 0.75f;
     float pres_noise = ((float)rand() / (float)RAND_MAX) * 0.4f - 0.2f;
 
-    // Apply noise to Johor Bahru 10:00 AM baselines
+    // Apply noise to baselines
     sim_data.temperature_C    = 26.8 + temp_noise;      // Mid-morning heat
     sim_data.humidity_percent = 85.5f + hum_noise;       // Lingering morning moisture
     sim_data.pressure_hPa     = 1010.2f + pres_noise;    // Diurnal pressure peak
